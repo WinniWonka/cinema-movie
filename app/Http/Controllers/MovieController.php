@@ -103,4 +103,47 @@ class MovieController extends Controller
             'top_tv_shows' => $topTvShowsArr,
         ]);
     }
+
+    public function movies()
+    {
+        $baseUrl = env('MOVIE_DB_BASE_URL');
+        $imageBaseUrl = env('MOVIE_DB_IMAGE_BASE_URL');
+        $apiKey = env('MOVIE_DB_API_KEY');
+        $sortBy = "popularity.desc";
+        $page = 1;
+        $minVoter = 100;
+
+        $movieResponses = Http::get("{$baseUrl}/discover/movie", [
+            'api_key' => $apiKey,
+            'sort_by' => $sortBy,
+            'vote_count.gte' => $minVoter,
+            'page' => $page,
+        ]);
+
+        //Prepare variable
+        $movieArr = [];
+
+        //check response
+        if ($movieResponses->successful()) {
+            $resArr = $movieResponses->object()->results;
+
+            if (isset($resArr)) {
+                //loop res data
+                foreach ($resArr as $item) {
+                    //save response data to var
+                    array_push($movieArr, $item);
+                }
+            }
+        }
+
+        return view('movie', [
+            'base_url' => $baseUrl,
+            'image_url' => $imageBaseUrl,
+            'api_key' => $apiKey,
+            'movies' => $movieArr,
+            'sort_by' => $sortBy,
+            'page' => $page,
+            'minimal_voter' => $minVoter,
+        ]);
+    }
 }

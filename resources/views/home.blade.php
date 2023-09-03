@@ -4,9 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="author" content="Andreas Lie">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cinema</title>
     <link rel="icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
     @vite('resources/css/app.css')
 </head>
 
@@ -73,98 +76,100 @@
             {{-- reason why the indent is broken -- need to be fixed!!! --}}
             <div class="absolute bottom-0 w-full mb-8">
                 <div class="w-full flex flex-row items-center justify-center">
-                    @for ($i = 1; $i <= count($banner); $i++) <div
-                        class="w-2.5 h-2.5 rounded-full mx-1 cursor-pointer dot" onclick="currentSlide({{$i}})">
+                    @for ($i = 1; $i <= count($banner); $i++) 
+                    <div class="w-2.5 h-2.5 rounded-full mx-1 cursor-pointer dot" onclick="currentSlide({{$i}})"></div>
+                    @endfor
                 </div>
-                @endfor
             </div>
         </div>
-    </div>
 
-    {{-- Top 10 Movies --}}
-    <div class="mt-12">
-        <span class="ml-28 font-inter font-bold  text-x">Top 10 Movies</span>
+        {{-- Top 10 Movies --}}
+        <div class="mt-12">
+            <span class="ml-28 font-inter font-bold  text-x">Top 10 Movies</span>
 
-        <div class="w-auto flex flex-row overflow-x-auto pl-28 pt-6 pb-10">
+            <div class="w-auto flex flex-row overflow-x-auto pl-28 pt-6 pb-10">
 
-            @foreach ($top_movies as $item)
+                @foreach ($top_movies as $item)
 
-            @php
-            $oriDt = $item->release_date;
-            $timeStamp = strtotime($oriDt);
-            $movieYear = date("Y", $timeStamp);
+                @php
+                $oriDt = $item->release_date;
+                $timeStamp = strtotime($oriDt);
+                $movieYear = date("Y", $timeStamp);
 
-            $movieId = $item->id;
-            $movieTitle = $item->title;
-            $movieRate = $item->vote_average*10;
-            $movieImg = "{$image_url}/w500{$item->poster_path}";
-            @endphp
-            <a href="movie/{{$movieId}}" class="group">
-                <div
-                    class="min-w-[232px] min-h-[482px] bg-white drop-shadow-[0_0px_8px_rgba(0,0,0,0.25)] group-hover:drop-shadow-[0_0px_8px_rgba(0,0,0,0.5)] rounded-[32px] p-5 flex flex-col mr-8 duration-100">
-                    <div class="overflow-hidden rounded-[32px]">
-                        <img class="w-full h-[300px] rounded-[32px] group-hover:scale-125 duration-200"
-                            src="{{$movieImg}}" />
+                $movieId = $item->id;
+                $movieTitle = $item->title;
+                $movieRate = $item->vote_average*10;
+                $movieImg = "{$image_url}/w500{$item->poster_path}";
+                @endphp
+                <a href="movie/{{$movieId}}" class="group">
+                    <div
+                        class="min-w-[232px] min-h-[482px] bg-white drop-shadow-[0_0px_8px_rgba(0,0,0,0.25)] group-hover:drop-shadow-[0_0px_8px_rgba(0,0,0,0.5)] rounded-[32px] p-5 flex flex-col mr-8 duration-100">
+                        <div class="overflow-hidden rounded-[32px]">
+                            <img class="w-full h-[300px] rounded-[32px] group-hover:scale-125 duration-200"
+                                src="{{$movieImg}}" />
+                        </div>
+                        <span
+                            class="font-inter font-bold text-xl mt-4 line-clamp-1 group-hover:line-clamp-none">{{$movieTitle}}</span>
+                        <span class="font-inter text-sm mt-1">{{$movieYear}}</span>
+                        <div class="flex flex-row mt-1 items-center">
+                            <svg style="color: rgb(224, 212, 133);" xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"
+                                    fill="#e0d485"></path>
+                            </svg>
+                            <span class="font-inter text-sm ml-1">{{$movieRate}}%</span>
+                        </div>
                     </div>
-                    <span
-                        class="font-inter font-bold text-xl mt-4 line-clamp-1 group-hover:line-clamp-none">{{$movieTitle}}</span>
-                    <span class="font-inter text-sm mt-1">{{$movieYear}}</span>
-                    <div class="flex flex-row mt-1 items-center">
-                        <svg style="color: rgb(224, 212, 133);" xmlns="http://www.w3.org/2000/svg" width="16"
-                            height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
-                            <path
-                                d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"
-                                fill="#e0d485"></path>
-                        </svg>
-                        <span class="font-inter text-sm ml-1">{{$movieRate}}%</span>
-                    </div>
-                </div>
-            </a>
-            @endforeach
+                </a>
+                @endforeach
 
+            </div>
         </div>
-    </div>
 
-    {{-- Top 10 Tv Shows --}}
-    <div>
-        <span class="ml-28 font-inter font-bold  text-x">Top 10 Tv Shows</span>
-        <div class="w-auto flex flex-row overflow-x-auto pl-28 pt-6 pb-10">
-            @foreach ($top_tv_shows as $item)
+        {{-- Top 10 Tv Shows --}}
+        <div>
+            <span class="ml-28 font-inter font-bold  text-x">Top 10 Tv Shows</span>
+            <div class="w-auto flex flex-row overflow-x-auto pl-28 pt-6 pb-10">
+                @foreach ($top_tv_shows as $item)
 
-            @php
-            $oriDt = $item->first_air_date;
-            $timeStamp = strtotime($oriDt);
-            $TvShowYear = date("Y", $timeStamp);
+                @php
+                $oriDt = $item->first_air_date;
+                $timeStamp = strtotime($oriDt);
+                $TvShowYear = date("Y", $timeStamp);
 
-            $TvShowId = $item->id;
-            $TvShowTitle = $item->name;
-            $TvShowRate = $item->vote_average*10;
-            $TvShowImg = "{$image_url}/w500{$item->poster_path}";
-            @endphp
-            <a href="movie/{{$TvShowId}}" class="group">
-                <div
-                    class="min-w-[232px] min-h-[482px] bg-white drop-shadow-[0_0px_8px_rgba(0,0,0,0.25)] group-hover:drop-shadow-[0_0px_8px_rgba(0,0,0,0.5)] rounded-[32px] p-5 flex flex-col mr-8 duration-100">
-                    <div class="overflow-hidden rounded-[32px]">
-                        <img class="w-full h-[300px] rounded-[32px] group-hover:scale-125 duration-200"
-                            src="{{$TvShowImg}}" />
+                $TvShowId = $item->id;
+                $TvShowTitle = $item->name;
+                $TvShowRate = $item->vote_average*10;
+                $TvShowImg = "{$image_url}/w500{$item->poster_path}";
+                @endphp
+                <a href="movie/{{$TvShowId}}" class="group">
+                    <div
+                        class="min-w-[232px] min-h-[482px] bg-white drop-shadow-[0_0px_8px_rgba(0,0,0,0.25)] group-hover:drop-shadow-[0_0px_8px_rgba(0,0,0,0.5)] rounded-[32px] p-5 flex flex-col mr-8 duration-100">
+                        <div class="overflow-hidden rounded-[32px]">
+                            <img class="w-full h-[300px] rounded-[32px] group-hover:scale-125 duration-200"
+                                src="{{$TvShowImg }}" />
+                        </div>
+                        <span
+                            class="font-inter font-bold text-xl mt-4 line-clamp-1 group-hover:line-clamp-none">{{$TvShowTitle}}</span>
+                        <span class="font-inter text-sm mt-1">{{$TvShowYear}}</span>
+                        <div class="flex flex-row mt-1 items-center">
+                            <svg style="color: rgb(224, 212, 133);" xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"
+                                    fill="#e0d485"></path>
+                            </svg>
+                            <span class="font-inter text-sm ml-1">{{$TvShowRate}}%</span>
+                        </div>
                     </div>
-                    <span
-                        class="font-inter font-bold text-xl mt-4 line-clamp-1 group-hover:line-clamp-none">{{$TvShowTitle}}</span>
-                    <span class="font-inter text-sm mt-1">{{$TvShowYear}}</span>
-                    <div class="flex flex-row mt-1 items-center">
-                        <svg style="color: rgb(224, 212, 133);" xmlns="http://www.w3.org/2000/svg" width="16"
-                            height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
-                            <path
-                                d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"
-                                fill="#e0d485"></path>
-                        </svg>
-                        <span class="font-inter text-sm ml-1">{{$TvShowRate}}%</span>
-                    </div>
-                </div>
-            </a>
-            @endforeach
+                </a>
+                @endforeach
+            </div>
         </div>
-    </div>
+
+        {{-- footer --}}
+        @include('footer')
 
     </div>
 
