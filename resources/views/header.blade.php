@@ -3,7 +3,7 @@
     <div class="w-1/3 pl-5">
         <a href="/movies"
             class="uppercase text-base mx-5 text-black hover:text-customColors-500 duration-200 font-inter">Movies</a>
-        <a href="/movies"
+        <a href="/tv-shows"
             class="uppercase text-base mx-5 text-black hover:text-customColors-500 duration-200 font-inter">TV
             Shows</a>
     </div>

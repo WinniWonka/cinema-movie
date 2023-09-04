@@ -98,7 +98,7 @@
 
                 $movieId = $item->id;
                 $movieTitle = $item->title;
-                $movieRate = $item->vote_average*10;
+                $movieRate = round((float)$item->vote_average*10);
                 $movieImg = "{$image_url}/w500{$item->poster_path}";
                 @endphp
                 <a href="movie/{{$movieId}}" class="group">
@@ -140,10 +140,10 @@
 
                 $TvShowId = $item->id;
                 $TvShowTitle = $item->name;
-                $TvShowRate = $item->vote_average*10;
+                $TvShowRate = round((float)$item->vote_average*10);
                 $TvShowImg = "{$image_url}/w500{$item->poster_path}";
                 @endphp
-                <a href="movie/{{$TvShowId}}" class="group">
+                <a href="tv/{{$TvShowId}}" class="group">
                     <div
                         class="min-w-[232px] min-h-[482px] bg-white drop-shadow-[0_0px_8px_rgba(0,0,0,0.25)] group-hover:drop-shadow-[0_0px_8px_rgba(0,0,0,0.5)] rounded-[32px] p-5 flex flex-col mr-8 duration-100">
                         <div class="overflow-hidden rounded-[32px]">
